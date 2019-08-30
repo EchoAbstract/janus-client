@@ -140,10 +140,10 @@ class Client {
 
     message(message) {
         this.startConnectionTimeout();
-        let parsedMessage = message;
+        let parsedMessage = message.data;
         try {
-            if(_.isString(message)) {
-                parsedMessage = JSON.parse(message);
+            if(_.isString(message.data)) {
+                parsedMessage = JSON.parse(message.data);
             }
             this.logger.debug('Received message', parsedMessage);
             this.dispatchObject(parsedMessage);
