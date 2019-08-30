@@ -84,10 +84,10 @@ class Client {
     connect() {
         if(this.webSocket === null) {
             this.webSocket = new this.WebSocket(this.url, this.protocol);
-            this.webSocket.on(WebSocketEvent.open, ()=>{ this.open(); });
-            this.webSocket.on(WebSocketEvent.close, ()=>{ this.close(); });
-            this.webSocket.on(WebSocketEvent.message, (message)=>{ this.message(message); });
-            this.webSocket.on(WebSocketEvent.error, (err)=>{ this.error(err); });
+            this.webSocket.onopen = ()=>{ this.open(); };
+            this.webSocket.onclose = ()=>{ this.close(); };
+            this.webSocket.onmessage = (message)=>{ this.message(message); };
+            this.webSocket.onerror = (err)=>{ this.error(err); };
             this.startConnectionTimeout();
         }
     }
@@ -216,17 +216,19 @@ class Client {
     sendObject(obj) {
         return new Promise((resolve, reject)=>{
             assert.isObject(obj);
-            if(this.isConnected()) {
-                this.webSocket.send(JSON.stringify(obj), (err)=> {
-                    if (_.isObject(err)) {
-                        reject(err);
-                    } else {
-                        this.logger.debug('Sent message', obj);
-                        resolve();
-                    }
-                });
+          if(this.isConnected()) {
+            this.webSocket.send(JSON.stringify(obj));
+           resolve();
+                // this.webSocket.send(JSON.stringify(obj), (err)=> {
+                //     if (_.isObject(err)) {
+                //         reject(err);
+                //     } else {
+                //         this.logger.debug('Sent message', obj);
+                //         resolve();
+                //     }
+                // });
             } else {
-                throw new ConnectionStateError(this);
+              reject(new ConnectionStateError(this));
             }
         });
     }
