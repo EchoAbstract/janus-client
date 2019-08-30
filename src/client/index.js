@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const WebSocket = require('ws');
+const WebSocket = require('isomorphic-ws');
 const EventEmitter = require('events').EventEmitter;
 const Transaction = require('../transaction').Transaction;
 const logger = require('debug-logger')('janus:client');
