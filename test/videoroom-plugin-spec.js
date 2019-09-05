@@ -35,7 +35,6 @@ describe('VideoRoomPlugin', function(){
 
     it('should return feeds of a room excluding a specific feed', function(done) {
         session.videoRoom().getFeedsExclude(1, 1).then((feeds)=>{
-            console.log(feeds);
             assert.isArray(feeds);
             assert.equal(feeds.length, 1);
             assert.equal(feeds[0], 2);

@@ -113,10 +113,10 @@ class Client {
         let closeHandler = ()=>{
             this.stopConnectionTimeout();
             if(this.webSocket !== null) {
-                this.webSocket.removeAllListeners(WebSocketEvent.open);
-                this.webSocket.removeAllListeners(WebSocketEvent.message);
-                this.webSocket.removeAllListeners(WebSocketEvent.error);
-                this.webSocket.removeAllListeners(WebSocketEvent.close);
+                this.webSocket.onopen = null;
+                this.webSocket.onclsoe = null;
+                this.webSocket.onmessage = null;
+                this.webSocket.onerror = null;
                 this.webSocket = null;
             }
             if(this.lastConnectionEvent === ClientEvent.connected) {
